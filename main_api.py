@@ -7,14 +7,15 @@ import uvicorn
 import asyncio
 from pydantic import BaseModel
 from typing import (List)
-from googletrans import Translator
+from deep_translator import GoogleTranslator
+
 from transformers import pipeline
 import re
 import yake
 
 # Declaring our FastAPI instance
 app = FastAPI()
-translator = Translator() 
+translator = GoogleTranslator(source='auto', target='en') 
 kwExtractor = yake.KeywordExtractor()
 generator = pipeline('text-generation', model='./gpt-neo-125M')
 # Declaring the request sample Modal
@@ -28,26 +29,20 @@ def main():
 @app.post('/autofill')
 async def autofill(data: request):
   titles = data.titles
-  titlesToEnglish = translator.translate(titles, dest='en')
   paragraph = ''
-  for translated in titlesToEnglish:
-    if (translated.text):
-      plainText = re.sub(r'[^\w]', ' ', translated.text).strip()
-      paragraph += f"{plainText}. "   
+  for item in titles:
+    englishVersion = translator.translate(item)
+    paragraph += f"{englishVersion}. "  
   keywords = kwExtractor.extract_keywords(paragraph)
   candidateKeyword = ''
   generateDescription = ''
   if (len(keywords) > 0):
     candidateKeyword = keywords[0][0]
     if (candidateKeyword.find("is") == -1):
-      candidateKeyword += ' is'
       candidateKeyword = "%s%s" % (candidateKeyword[0].upper(), candidateKeyword[1:]) #upper case first letter
-    descript = generator(candidateKeyword, do_sample = True, max_new_tokens = 60)
+    descript = generator(f"{candidateKeyword} is", do_sample = True, max_new_tokens = 60)
     if (len(descript) > 0):
       generateDescription = descript[0]['generated_text']
-      # generateDescription = generateDescription.strip('\n')
-      # generateDescription = generateDescription.strip('\t')
-      # generateDescription = re.sub('\s+', ' ', generateDescription)
       generateDescription.rsplit(' ', 1)[0] # remove last word
       generateDescription+='...'
   return {
