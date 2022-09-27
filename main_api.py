@@ -1,10 +1,9 @@
-# pip install fastapi uvicorn asyncio pydantic typing yake
+# pip install fastapi uvicorn pydantic typing yake
 # python3 -m uvicorn main_api:app --reload
 # Importing Necessary modules
 from operator import le
 from fastapi import FastAPI
 import uvicorn
-import asyncio
 from pydantic import BaseModel
 from typing import (List)
 from deep_translator import GoogleTranslator
