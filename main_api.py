@@ -40,7 +40,7 @@ async def autofill(data: request):
     candidateKeyword = keywords[0][0]
     if (candidateKeyword.find("is") == -1):
       candidateKeyword = "%s%s" % (candidateKeyword[0].upper(), candidateKeyword[1:]) #upper case first letter
-    descript = generator(f"{candidateKeyword} is", do_sample = True, max_new_tokens = 60)
+    descript = generator(f"{candidateKeyword} is", do_sample = True, max_new_tokens = 30)
     if (len(descript) > 0):
       generateDescription = descript[0]['generated_text']
       generateDescription.rsplit(' ', 1)[0] # remove last word
