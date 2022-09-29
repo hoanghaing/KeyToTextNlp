@@ -1,5 +1,5 @@
-import googletrans
-from googletrans import Translator
+# import googletrans
+# from googletrans import Translator
 # pip install deep-translator
 # import time
 # translator = Translator()
@@ -53,5 +53,5 @@ from googletrans import Translator
 #     print(f'{trans.origin} -> {trans.text}')
 
 from deep_translator import GoogleTranslator
-translated = GoogleTranslator(source='auto', target='en').translate("메일은 다 지울수도 있고, 안읽은거만 지울 수도 있어. 어떻게 할래?")  # output -> Weiter so, du bist großartig
+translated = GoogleTranslator(source='auto', target='en').translate("Sáng 28/9, con đường dẫn vào tổ dân phố Cổ Bưu (phường Hương An, thành phố Huế, tỉnh Thừa Thiên - Huế) ngổn ngang. Hàng loạt cây xanh, cột, dây điện đổ ngã chắn ngang đường. Hàng chục nhà dân bị gió bão thổi làm tốc mái, hư hỏng. Cổ Bưu nằm giữa một cánh đồng. Nơi đây là một trong những địa phương của Thừa Thiên - Huế chịu hậu quả nặng nề sau khi bão Noru đổ bộ.")
 print(translated)
